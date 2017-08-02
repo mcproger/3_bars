@@ -4,7 +4,7 @@ import json, os
 
 def load_data(filepath):
     if not os.path.exists(filepath):
-        return None
+        return False
     with open(filepath, 'r', encoding='cp1251') as file_handler:
         return json.load(file_handler)
 
@@ -37,9 +37,12 @@ def get_closest_bar(data, longitude, latitude):
 
 if __name__ == '__main__':
     filepath = input('Введите путь до файла с барами: ')
-    longitude = input('Введите долготу: ')
-    latitude = input('Введите широту: ')
-    bars = load_data(filepath)
-    print('Самый большой бар -', get_biggest_bar(bars))
-    print('Самый маленький бар -', get_smallest_bar(bars))
-    print('Самый близкий бар -', get_closest_bar(bars, longitude, latitude))
+    if load_data(filepath):
+        longitude = input('Введите долготу: ')
+        latitude = input('Введите широту: ')
+        bars = load_data(filepath)
+        print('Самый большой бар -', get_biggest_bar(bars))
+        print('Самый маленький бар -', get_smallest_bar(bars))
+        print('Самый близкий бар -', get_closest_bar(bars, longitude, latitude))
+    else:
+        print('Такого файла нет')
