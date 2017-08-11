@@ -11,7 +11,6 @@ def load_data(filepath):
 
 def get_bar_name(bar_info):
     bar_name = bar_info['Name']
-    bar_address = bar_info['Address']
     return bar_name
 
 
