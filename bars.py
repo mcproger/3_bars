@@ -9,38 +9,28 @@ def load_data(filepath):
         return json.load(file_handler)
 
 
-def make_bars_seats_place_info(data):
-    bars_seats_place_info = {}
-    for bar in bars:
-        bars_seats_place_info[bar.get('Name', None)] = bar.get('SeatsCount', None)
-    return bars_seats_place_info
+def get_bar_name(bar_info):
+    bar_name = bar_info['Name']
+    bar_address = bar_info['Address']
+    return bar_name
 
 
-def make_bars_coordinates_info(data, longitude, latitude):
-    bars_coordinates_info = {}
-    for bar in bars:
-        width = (longitude - float(bar.get('Longitude_WGS84', 0))) ** 2
-        length = (latitude - float(bar.get('Latitude_WGS84', 0))) ** 2
-        bars_coordinates_info[bar.get('Name', None)] = sqrt(width + length)
-    return bars_coordinates_info
+def get_distance_to_bar(bars, longitude, latitude):
+    bar_longtitude = (longitude - float(bars['Longitude_WGS84'])) ** 2
+    bar_latitude = (latitude - float(bars['Latitude_WGS84'])) ** 2
+    return sqrt(bar_longtitude + bar_latitude)
 
 
-def get_biggest_bar(data):
-    bars_seats_place_info = make_bars_seats_place_info(data)
-    biggest_bar = max(bars_seats_place_info.items(), key=lambda item: item[1])[0]
-    return biggest_bar
+def get_biggest_bar(bars):
+    return max(bars, key=lambda bars: bars['SeatsCount'])
 
 
-def get_smallest_bar(data):
-    bars_seats_place_info = make_bars_seats_place_info(data)
-    smallest_bar = min(bars_seats_place_info.items(), key=lambda item: item[1])[0]
-    return smallest_bar
+def get_smallest_bar(bars):
+    return min(bars, key=lambda bars: bars['SeatsCount'])
 
 
-def get_closest_bar(data, longitude, latitude):
-    bars_coordinates_info = make_bars_coordinates_info(data, longitude, latitude)
-    closest_bar = min(bars_coordinates_info.items(), key=lambda item: item[1])[0]
-    return closest_bar
+def get_closest_bar(bars, longitude, latitude):
+    return min(bars, key=lambda bars: get_distance(bars, longitude, latitude))
 
 
 if __name__ == '__main__':
@@ -49,8 +39,8 @@ if __name__ == '__main__':
     latitude = float(input('Введите широту: '))
     if load_data(filepath):
         bars = load_data(filepath)
-        print('Самый большой бар -', get_biggest_bar(bars))
-        print('Самый маленький бар -', get_smallest_bar(bars))
-        print('Самый близкий бар -', get_closest_bar(bars, longitude, latitude))
+        print('Самый большой бар -', get_bar_name(get_biggest_bar(bars)))
+        print('Самый маленький бар -', get_bar_name(get_smallest_bar(bars)))
+        print('Самый близкий бар -', get_bar_name(get_closest_bar(bars, longitude, latitude)))
     else:
         print('Такого файла нет')
