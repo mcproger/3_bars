@@ -29,7 +29,7 @@ def get_smallest_bar(bars):
 
 
 def get_closest_bar(bars, longitude, latitude):
-    return min(bars, key=lambda bars: get_distance(bars, longitude, latitude))
+    return min(bars, key=lambda bars: get_distance_to_bar(bars, longitude, latitude))
 
 
 if __name__ == '__main__':
