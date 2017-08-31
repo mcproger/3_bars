@@ -1,5 +1,17 @@
 from math import sqrt
-import json, os
+import json
+import os
+import argparse
+
+
+def get_argparser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filepath', type=str,
+                        help='Path to file with bar\'s list')
+    parser.add_argument('longitude', type=float)
+    parser.add_argument('latitude', type=float)
+    args = parser.parse_args()
+    return args
 
 
 def load_data(filepath):
@@ -33,13 +45,12 @@ def get_closest_bar(bars, longitude, latitude):
 
 
 if __name__ == '__main__':
-    filepath = input('Введите путь до файла с барами: ')
-    longitude = float(input('Введите долготу: '))
-    latitude = float(input('Введите широту: '))
-    if load_data(filepath):
-        bars = load_data(filepath)
+    args = get_argparser()
+    bars = load_data(args.filepath)
+    if not bars:
+        print('Такого файла нет')
+    else:    
         print('Самый большой бар -', get_bar_name(get_biggest_bar(bars)))
         print('Самый маленький бар -', get_bar_name(get_smallest_bar(bars)))
-        print('Самый близкий бар -', get_bar_name(get_closest_bar(bars, longitude, latitude)))
-    else:
-        print('Такого файла нет')
+        print('Самый близкий бар -',
+              get_bar_name(get_closest_bar(bars, args.longitude, args.latitude)))
