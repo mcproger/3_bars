@@ -16,7 +16,6 @@
 
 ```#!bash
 $ python3 bars.py <path-to-file-with-bar's-list> <longitude> <latitude>
-
 ```
 
 Пример ответа: 
