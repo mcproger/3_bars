@@ -6,18 +6,19 @@
 
 Скрипт требует для своей работы установленного интерпретатора Python версии 3.5
 
-Также необходим json-файл с данными о барах с сайта [data.mos.ru](https://data.mos.ru/opendata/7710881420-bary).
+Также необходимо скачать json-файл с данными о барах с сайта [data.mos.ru](https://data.mos.ru/). Для этого нужно:
+  
+  - Зарегистрироваться на сайте и получить ключ API;
+  - Скачать файл по ссылке вида https://apidata.mos.ru/v1/features/1796?api_key={place_your_API_key_here}.
+
 
 Запуск на Linux:
 
 ```#!bash
-
-$ python bars.py # possibly requires call of python3 executive instead of just python
-  Введите путь до файла с барами: <bars.json>
-  Введите долготу: <->
-  Введите широту: <->
+$ python3 bars.py <path-to-file-with-bar's-list> <longitude> <latitude>
 
 ```
+
 Пример ответа: 
 
 ```
